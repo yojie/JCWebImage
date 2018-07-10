@@ -17,8 +17,7 @@ Pod::Spec.new do |s|
   # s.osx.deployment_target = '10.7'
   s.requires_arc = true
  
-  s.source_files = 'Classes/*'
-  # s.resources = 'Assets'
+  s.source_files = 'JCWebImage/*'
  
   # s.ios.exclude_files = 'Classes/osx'
   # s.osx.exclude_files = 'Classes/ios'
