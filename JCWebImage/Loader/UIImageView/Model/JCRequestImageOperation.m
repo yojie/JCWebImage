@@ -131,19 +131,13 @@
 #if DEBUG
 		NSLog(@"progress: %f%%", progress);
 #endif
-		__weak __typeof(&*self) wself = self;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			wself.progress(progress);
-		});
+		self.progress(progress);
 	}
 }
 
 - (void)jc_handleImage:(UIImage*)image {
 	if (self.callback) {
-		__weak __typeof(&*self) wself = self;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			wself.callback(image);
-		});
+		self.callback(image);
 	}
 	self.imageData = nil;
 }

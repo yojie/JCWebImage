@@ -64,7 +64,9 @@
 	JCRequestImageOperation * operation = [JCRequestImageOperation createWithImageUrl:url progress:^(CGFloat progress) {
 		wself.progressView.progress = progress;
 	} block:^(UIImage *image) {
-		complete ? complete(image) : nil;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			complete ? complete(image) : nil;
+		});
 		dispatch_async(dispatch_get_global_queue(0, 0), ^{
 			[wself.cacheManager cacheImage:image key:url];
 		});

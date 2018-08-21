@@ -95,7 +95,9 @@
 		return;
 	}
 	self.current += 0.01;
-	self.progressLabel.text = [NSString stringWithFormat:@"%ld%%", (NSInteger)(progress)];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		self.progressLabel.text = [NSString stringWithFormat:@"%ld%%", (NSInteger)(progress)];
+	});
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		[self jc_labelAnmation];
 	});

@@ -35,9 +35,33 @@
  
  @param url 网络地址
  @param placeholder 预览图片
+ @param thumbnail 缩略图比率(0..1)
  @param block 设置回调
  */
-- (void)jc_loadUrl:(NSString *)url placeholder:(UIImage*)placeholder block:(void(^)(UIImage*image,NSString*url))block;
+- (void)jc_loadUrl:(NSString *)url placeholder:(UIImage*)placeholder thumbnail:(CGFloat)thumbnail block:(void(^)(UIImage*image,NSString*url))block;
+/**
+ 加载网络图片
+
+ @param url 网络地址
+ @param thumbnail 缩略图比率(0..1)
+ */
+- (void)jc_loadUrl:(NSString *)url thumbnail:(CGFloat)thumbnail;
+/**
+ 加载网络图片
+ 
+ @param url 网络地址
+ @param thumbnail 缩略图比率(0..1)
+ @param block 设置回调
+ */
+- (void)jc_loadUrl:(NSString *)url thumbnail:(CGFloat)thumbnail block:(void(^)(UIImage*image,NSString*url))block;
+/**
+ 加载网络图片
+ 
+ @param url 网络地址
+ @param placeholder 预览图片
+ @param thumbnail 缩略图比率(0..1)
+ */
+- (void)jc_loadUrl:(NSString *)url placeholder:(UIImage*)placeholder thumbnail:(CGFloat)thumbnail;
 
 @end
 
