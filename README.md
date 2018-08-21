@@ -1,2 +1,2 @@
 # JCWebImage
-###A lightweight web image cache library with loading progress
+### A lightweight web image cache library with loading progress
