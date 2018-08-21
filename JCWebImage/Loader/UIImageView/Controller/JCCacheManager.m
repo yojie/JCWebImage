@@ -41,7 +41,7 @@
 
 - (NSString *)dirPath {
 	if (!_dirPath) {
-		NSString * path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+		NSString * path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
 		_dirPath = [path stringByAppendingPathComponent:JCDirName];
 		if (![self.fileManager fileExistsAtPath:_dirPath]) {
 			[self.fileManager createDirectoryAtPath:_dirPath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -76,7 +76,8 @@
 #if DEBUG
 	NSLog(@"pathExtension: %@", pathExtension);
 #endif
-	if ([[pathExtension lowercaseString] isEqualToString:@"png"]) {
+	if ([[pathExtension lowercaseString] isEqualToString:@"png"]
+		|| [[key lowercaseString] containsString:@".png"]) {
 		data = UIImagePNGRepresentation(image);
 	}
 	else {

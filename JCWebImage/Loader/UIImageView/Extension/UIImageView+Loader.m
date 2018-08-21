@@ -22,6 +22,30 @@ static void * JCKeyLoaderManager = NULL;
 
 @implementation UIImageView (Loader)
 
+#pragma mark - method swizzling
++ (void)load {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		Class cls = [self class];
+		SEL oriSEL = @selector(layoutSubviews);
+		SEL repSEL = @selector(jc_layoutSubviews);
+		Method  method = class_getInstanceMethod(cls, oriSEL);
+		Method _method = class_getInstanceMethod(cls, repSEL);
+		BOOL success = class_addMethod(cls, oriSEL, method_getImplementation(_method), method_getTypeEncoding(_method));
+		if (success) {
+			class_replaceMethod(cls, repSEL, method_getImplementation(method), method_getTypeEncoding(method));
+			
+		} else {
+			method_exchangeImplementations(method, _method);
+		}
+	});
+}
+
+- (void)jc_layoutSubviews {
+	[self jc_layoutSubviews];
+	[self jc_layoutLoaderProgressView];
+}
+
 #pragma mark - public method
 - (void)jc_loadUrl:(NSString *)url {
 	[self jc_loadUrl:url block:nil];
@@ -89,11 +113,10 @@ static void * JCKeyLoaderManager = NULL;
 
 - (void)jc_layoutLoaderProgressView {
 	JCProgressView * view = [[self loaderManager] progressView];
-	[self addSubview:view];
+	if (![view superview]) {
+		[self addSubview:view];
+	}
 	view.center = CGPointMake(CGRectGetWidth(self.frame)*0.5f, CGRectGetHeight(self.frame)*0.5f);
-#if DEBUG
-	NSLog(@"\n%@\n%@", self, view);
-#endif
 }
 
 #pragma mark - animation
@@ -106,6 +129,7 @@ static void * JCKeyLoaderManager = NULL;
 
 @end
 
+#pragma mark -
 @implementation UIImage (Size)
 
 - (UIImage *)imageResize:(CGSize)size {
